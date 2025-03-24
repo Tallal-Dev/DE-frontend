@@ -21,15 +21,36 @@
 <body class="bg-gray-100">
 
     <!-- Header -->
-    <header class="bg-gradient-to-l from-blue-900 to-blue-600 text-white py-4 px-6">
+    <header class="bg-gradient-to-l from-blue-900 to-blue-600 text-white py-3 px-6">
         <div class="flex justify-between items-center">
             <img class="h-10 md:h-12" src="UOH LOGO.png" alt="University of Haripur">
+
+            <button id="menu-btn" class="block md:hidden text-white focus:outline-none">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+
             <nav class="hidden md:flex space-x-6 font-semibold">
-                <a href="index.html" class="hover:underline hover:text-yellow-400">Home</a>
-                <a href="programs.html" class="hover:underline hover:text-yellow-400">Programs</a>
-                <a href="contact.html" class="hover:underline hover:text-yellow-400">Contact</a>
-                <a href="about.html" class="hover:underline hover:text-yellow-400">About</a>
+                <a href="./index.html" class="hover:underline hover:text-yellow-400">Home</a>
+                <div class="dropdown">
+                    <a href="#" class="hover:underline hover:text-yellow-400">Programs</a>
+                    <div id="program-dropdown" class="dropdown-content"></div>
+                </div>
+                <a href="./faculity.html" class="hover:underline hover:text-yellow-400">Faculity</a>
+                <a href="./scheme.html" class="hover:underline hover:text-yellow-400">Scheme of Studies</a>
+                <a href="#footer" class="hover:underline hover:text-yellow-400">Contact</a>
+
             </nav>
+        </div>
+
+        <div id="mobile-menu" class="hidden flex-col bg-blue-800 text-white space-y-4 p-4 mt-2 rounded-md md:hidden">
+            <a href="#" class="hover:underline hover:text-yellow-400">Home</a>
+            <div class="dropdown">
+                <a href="#" class="hover:underline hover:text-yellow-400">Programs</a>
+                <div id="program-dropdown" class="dropdown-content"></div>
+            </div>
+            <a href="./faculity.html" class="hover:underline hover:text-yellow-400">Faculity</a>
+            <a href="./scheme.html" class="hover:underline hover:text-yellow-400">Scheme of Studies</a>
+            <a href="#footer" class="hover:underline hover:text-yellow-400">Contact</a>
         </div>
     </header>
 
@@ -49,12 +70,9 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-blue-900 text-white py-6 mt-10">
+    <footer id="footer" class="bg-blue-900 text-white py-6 mt-auto">
         <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-6 text-center md:text-left">
-            <div>
-                <h2 class="text-2xl font-bold">University of Haripur</h2>
-                <p class="mt-2 text-gray-300">&copy; 2025 University of Haripur. All rights reserved.</p>
-            </div>
+           
             <div>
                 <h3 class="text-lg font-semibold">Quick Links</h3>
                 <ul class="mt-2 space-y-2">
@@ -71,6 +89,13 @@
                     <a href="#" class="hover:text-gray-400"><i class="fab fa-linkedin text-2xl"></i></a>
                 </div>
             </div>
+        </div>
+        
+    </footer>
+    <footer class="bg-black">
+        <div  >
+            
+            <p class="mt-2 text-gray-300 text-center">&copy; 2025 University of Haripur. All rights reserved.</p>
         </div>
     </footer>
 

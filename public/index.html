@@ -70,19 +70,22 @@
                     <a href="#" class="hover:underline hover:text-yellow-400">Programs</a>
                     <div id="program-dropdown" class="dropdown-content"></div>
                 </div>
-                
                 <a href="./faculity.html" class="hover:underline hover:text-yellow-400">Faculity</a>
                 <a href="./scheme.html" class="hover:underline hover:text-yellow-400">Scheme of Studies</a>
-                <a href="#" class="hover:underline hover:text-yellow-400">Contact</a>
-                <a href="#" class="hover:underline hover:text-yellow-400">About</a>
+                <a href="#footer" class="hover:underline hover:text-yellow-400">Contact</a>
+
             </nav>
         </div>
 
         <div id="mobile-menu" class="hidden flex-col bg-blue-800 text-white space-y-4 p-4 mt-2 rounded-md md:hidden">
-            <a href="#" class="block">Home</a>
-            <a href="#" class="block">Programs</a>
-            <a href="#" class="block">Contact</a>
-            <a href="#" class="block">About</a>
+            <a href="#" class="hover:underline hover:text-yellow-400">Home</a>
+            <div class="dropdown">
+                <a href="#" class="hover:underline hover:text-yellow-400">Programs</a>
+                <div id="program-dropdown" class="dropdown-content"></div>
+            </div>
+            <a href="./faculity.html" class="hover:underline hover:text-yellow-400">Faculity</a>
+            <a href="./scheme.html" class="hover:underline hover:text-yellow-400">Scheme of Studies</a>
+            <a href="#footer" class="hover:underline hover:text-yellow-400">Contact</a>
         </div>
     </header>
 
@@ -128,32 +131,78 @@
         <div id="news-list" class="grid md:grid-cols-3 gap-6 mt-6"></div>
     </section>
 
-    <footer class="bg-blue-900 text-white py-6 mt-auto">
+    <footer id="footer" class="bg-blue-900 text-white py-6 mt-auto">
         <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-6 text-center md:text-left">
-            <div>
-                <h2 class="text-2xl font-bold">University Name</h2>
-                <p class="mt-2 text-gray-300">&copy; 2025 University Name. All rights reserved.</p>
-            </div>
+           
             <div>
                 <h3 class="text-lg font-semibold">Quick Links</h3>
                 <ul class="mt-2 space-y-2">
                     <li><a href="index.html" class="hover:underline">Home</a></li>
-                    <li><a href="about.html" class="hover:underline">About</a></li>
-                    <li><a href="contact.html" class="hover:underline">Contact</a></li>
+                    <li><a href="faculity.html" class="hover:underline">Faculity</a></li>
+                    <li><a href="scheme.html" class="hover:underline">Scheme</a></li>
                 </ul>
             </div>
+    
             <div>
                 <h3 class="text-lg font-semibold">Follow Us</h3>
                 <div class="flex justify-center md:justify-start mt-2 space-x-4">
-                    <a href="#" class="hover:text-gray-400"><i class="fab fa-facebook text-2xl"></i></a>
-                    <a href="#" class="hover:text-gray-400"><i class="fab fa-twitter text-2xl"></i></a>
-                    <a href="#" class="hover:text-gray-400"><i class="fab fa-linkedin text-2xl"></i></a>
+                    <a href="#" class="hover:text-gray-400"><i class="fab fa-facebook text-2xl">facebook</i></a>
+                    <a href="#" class="hover:text-gray-400"><i class="fab fa-twitter text-2xl">twitter</i></a>
+                    <a href="#" class="hover:text-gray-400"><i class="fab fa-linkedin text-2xl">Linkedin</i></a>
                 </div>
             </div>
+    
+            <div>
+                <h3 class="text-lg font-semibold">Contact Us</h3>
+                <div class="mt-2 space-y-2">
+                    <p><strong>Phone No:</strong> +92-312-3456789</p>
+                    <p><strong>Email:</strong> info@uoh.edu.pk</p>
+                    <p><strong>Address:</strong> Department of Education, The University of Haripur, Hattar Road Near Swat Chowk, Haripur, Khyber Pakhtunkhwa, Pakistan</p>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Newsletter Subscription Section -->
+        <div class="mt-6 text-center">
+            <h3 class="text-lg font-semibold">Subscribe to our Newsletter</h3>
+            <form id="newsletter-form" class="mt-2 flex justify-center">
+                <input type="email" id="email" name="email" placeholder="Enter your email" class="p-2 rounded-l-md text-black" required>
+                <button type="submit" class="bg-gray-400 text-white px-4 py-2 rounded-r-md hover:bg-yellow-600">Subscribe</button>
+            </form>
+            <p id="message" class="mt-2 text-sm"></p>
+        </div>
+    </footer>
+    <footer class="bg-black">
+        <div  >
+            
+            <p class="mt-2 text-gray-300 text-center">&copy; 2025 University of Haripur. All rights reserved.</p>
         </div>
     </footer>
 
     <script>
+//news letter emails posting
+document.getElementById('newsletter-form').addEventListener('submit', async function(event) {
+    event.preventDefault();
+    
+    const email = document.getElementById('email').value;
+    const message = document.getElementById('message');
+
+    try {
+        const response = await fetch('/api/newsletter', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email })
+        });
+
+        const data = await response.json();
+        message.textContent = data.message;
+        message.style.color = response.ok ? 'green' : 'red';
+        document.getElementById('email').value = ''; // Clear input field if successful
+    } catch (error) {
+        message.textContent = "Error subscribing. Please try again!";
+        message.style.color = 'red';
+    }
+});
         // Toggle Mobile Menu
         document.getElementById('menu-btn').addEventListener('click', () => {
             document.getElementById('mobile-menu').classList.toggle('hidden');
