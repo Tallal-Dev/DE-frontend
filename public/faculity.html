@@ -60,7 +60,7 @@
             facultyListDiv.innerHTML = '<p class="text-center text-gray-500">Loading faculty members...</p>';
 
             try {
-                const response = await fetch('http://localhost:5000/api/faculty'); // Fetch all faculty members
+                const response = await fetch('https://de-backend-one.vercel.app/api/faculty'); // Fetch all faculty members
                 if (!response.ok) {
                     const errorData = await response.json();
                     console.error('API Error:', errorData);

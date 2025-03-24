@@ -82,7 +82,7 @@
             document.getElementById('programName').textContent = 'Program Details';
             document.getElementById('schemeContainer').innerHTML = '<p class="text-red-500">Program ID not provided.</p>';
         } else {
-            fetch(`http://localhost:5000/api/programs/${programId}`)
+            fetch(`https://de-backend-one.vercel.app/api/programs/${programId}`)
     .then(response => response.json())
     .then(program => {
         document.getElementById('programName').textContent = program.name || 'N/A';

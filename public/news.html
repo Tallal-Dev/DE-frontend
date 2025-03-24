@@ -59,7 +59,7 @@
             const newsId = urlParams.get("id");
             if (!newsId) return;
 
-            const res = await fetch(`http://localhost:5000/api/news/${newsId}`);
+            const res = await fetch(`https://de-backend-one.vercel.app/api/news/${newsId}`);
             const news = await res.json();
 
             document.getElementById("news-title").innerText = news.title;

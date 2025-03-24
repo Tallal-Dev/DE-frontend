@@ -94,7 +94,7 @@
             }
 
             try {
-                const response = await fetch(`http://localhost:5000/api/faculty/${facultyId}`);
+                const response = await fetch(`https://de-backend-one.vercel.app/api/faculty/${facultyId}`);
                 if (!response.ok) {
                     const errorData = await response.json();
                     throw new Error(`HTTP error! status: ${response.status} - ${errorData.message || 'Failed to fetch faculty data.'}`);
