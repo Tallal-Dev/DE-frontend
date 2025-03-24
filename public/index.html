@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University Homepage</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        .hero {
+            background-size: cover;
+            background-position: center;
+            transition: background-image 1s ease-in-out;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: white;
+            min-width: 250px;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+            padding-top: 8px;
+            border-radius: 4px;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            display: block;
+            text-align: left;
+            transition: background 0.3s;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+    <header class="bg-gradient-to-l from-blue-900 to-blue-600 text-white py-3 px-6">
+        <div class="flex justify-between items-center">
+            <img class="h-10 md:h-12" src="UOH LOGO.png" alt="University of Haripur">
+
+            <button id="menu-btn" class="block md:hidden text-white focus:outline-none">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+
+            <nav class="hidden md:flex space-x-6 font-semibold">
+                <a href="#" class="hover:underline hover:text-yellow-400">Home</a>
+                <div class="dropdown">
+                    <a href="#" class="hover:underline hover:text-yellow-400">Programs</a>
+                    <div id="program-dropdown" class="dropdown-content"></div>
+                </div>
+                
+                <a href="./faculity.html" class="hover:underline hover:text-yellow-400">Faculity</a>
+                <a href="./scheme.html" class="hover:underline hover:text-yellow-400">Scheme of Studies</a>
+                <a href="#" class="hover:underline hover:text-yellow-400">Contact</a>
+                <a href="#" class="hover:underline hover:text-yellow-400">About</a>
+            </nav>
+        </div>
+
+        <div id="mobile-menu" class="hidden flex-col bg-blue-800 text-white space-y-4 p-4 mt-2 rounded-md md:hidden">
+            <a href="#" class="block">Home</a>
+            <a href="#" class="block">Programs</a>
+            <a href="#" class="block">Contact</a>
+            <a href="#" class="block">About</a>
+        </div>
+    </header>
+
+    <section id="hero" class="hero h-[500px] flex items-center justify-center text-white text-center bg-black bg-opacity-50">
+        <div class="bg-black bg-opacity-50 p-6 rounded-lg">
+            <h2 class="text-4xl font-bold">Department of <span class="bg-yellow-500 px-2">Education</span></h2>
+            <p class="mt-2 text-lg">Empowering Minds, Shaping the Future.</p>
+        </div>
+    </section>
+
+    <section class="py-12 px-6 md:px-60 bg-gray-200">
+        <h3 class="text-3xl font-semibold text-center">Vision</h3>
+        <p class="mt-4 text-center">
+            The Department of Education strives to equip prospective teachers with the best possible
+            skills and knowledge, enabling them to serve better at local, national, and international levels.
+        </p>
+    </section>
+
+    <section class="py-12 px-6 md:px-60 bg-gray-300">
+        <h3 class="text-3xl font-semibold text-center">Mission</h3>
+        <p class="mt-4 text-center">
+            Our mission is to provide pre- and in-service teachers with updated knowledge of education at
+            various levels, equipping them with essential skills in counseling, management, research, and leadership.
+        </p>
+    </section>
+
+    <section class="py-12 px-6 bg-gray-200">
+        <h3 class="text-3xl font-semibold text-center">Latest News</h3>
+        <div id="news-list" class="grid md:grid-cols-3 gap-6 mt-6"></div>
+    </section>
+
+    <footer class="bg-blue-900 text-white py-6 mt-auto">
+        <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-6 text-center md:text-left">
+            <div>
+                <h2 class="text-2xl font-bold">University Name</h2>
+                <p class="mt-2 text-gray-300">&copy; 2025 University Name. All rights reserved.</p>
+            </div>
+            <div>
+                <h3 class="text-lg font-semibold">Quick Links</h3>
+                <ul class="mt-2 space-y-2">
+                    <li><a href="index.html" class="hover:underline">Home</a></li>
+                    <li><a href="about.html" class="hover:underline">About</a></li>
+                    <li><a href="contact.html" class="hover:underline">Contact</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-lg font-semibold">Follow Us</h3>
+                <div class="flex justify-center md:justify-start mt-2 space-x-4">
+                    <a href="#" class="hover:text-gray-400"><i class="fab fa-facebook text-2xl"></i></a>
+                    <a href="#" class="hover:text-gray-400"><i class="fab fa-twitter text-2xl"></i></a>
+                    <a href="#" class="hover:text-gray-400"><i class="fab fa-linkedin text-2xl"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Toggle Mobile Menu
+        document.getElementById('menu-btn').addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+
+        // Fetch Programs Dropdown
+        async function fetchProgramsDropdown() {
+            try {
+                const res = await fetch('http://localhost:5000/api/programs');
+                if (!res.ok) {
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
+                const programs = await res.json();
+                const dropdown = document.getElementById('program-dropdown');
+                dropdown.innerHTML = "";
+                programs.forEach(program => {
+                    const link = document.createElement('a');
+                    link.href = `program.html?id=${program._id}`;
+                    link.innerText = program.name;
+                    dropdown.appendChild(link);
+                });
+            } catch (error) {
+                console.error('Error fetching programs:', error);
+                document.getElementById('program-dropdown').innerHTML = '<span class="text-red-500">Failed to load programs.</span>';
+            }
+        }
+
+        // Fetch News Section
+     
+        async function fetchNews() {
+            try {
+                const res = await fetch('http://localhost:5000/api/news');
+                if (!res.ok) {
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
+                const news = await res.json();
+                const newsList = document.getElementById('news-list');
+                newsList.innerHTML = '';
+
+                const today = new Date();
+                const sevenDaysAgo = new Date();
+                sevenDaysAgo.setDate(today.getDate() - 7); // 7 days ago
+
+                news.forEach(item => {
+                    const newsDate = new Date(item.createdAt);
+                    const isNew = newsDate >= sevenDaysAgo; // Check if news is within the last 7 days
+
+                    const newsItemDiv = document.createElement('div');
+                    newsItemDiv.classList.add('p-4', 'bg-white', 'shadow', 'rounded', 'flex', 'items-center', 'gap-3');
+
+                    newsItemDiv.innerHTML = `
+                        ${isNew ? '<img src="new.gif" alt="New" class="w-6 h-6">' : ''}
+                        <a href="news.html?id=${item._id}" class="block hover:underline text-blue-700">
+                            ${item.title}
+                        </a>
+                    `;
+                    newsList.appendChild(newsItemDiv);
+                });
+            } catch (error) {
+                console.error('Error fetching news:', error);
+                document.getElementById('news-list').innerHTML = `<p class="text-red-500 text-center">Failed to load news.</p>`;
+            }
+        }
+
+
+      
+
+        // Fetch Hero Images
+        async function fetchHeroImages() {
+            try {
+                const res = await fetch('http://localhost:5000/api/images');
+                if (!res.ok) {
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
+                const imagesData = await res.json();
+                const heroSection = document.getElementById('hero');
+
+                if (imagesData && imagesData.length > 0) {
+                    // Assuming you want to use the first image for the hero
+                    const firstImageUrl = imagesData[0].url;
+                    heroSection.style.backgroundImage = `url('${firstImageUrl}')`;
+                } else {
+                    console.warn('No hero images found in the database.');
+                    // Optionally, you can set a default background or leave it as is.
+                }
+
+            } catch (error) {
+                console.error('Error fetching hero images:', error);
+                // Optionally, handle the error by setting a default background or showing an error message.
+            }
+        }
+
+        fetchProgramsDropdown();
+        fetchNews();
+        fetchHeroImages(); // Call the new function to fetch and set hero images
+    </script>
+</body>
+</html>

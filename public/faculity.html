@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Members - Department of Education</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .faculty-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 0.25rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        }
+        .faculty-card:hover {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+        }
+        .view-profile {
+            color: #3182ce;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+        .view-profile:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+    <header class="bg-gradient-to-l from-blue-900 to-blue-600 text-white py-4 flex justify-between items-center px-6 md:px-12">
+        <img class="h-12" src="UOH LOGO.png" alt="University of Haripur">
+        <nav class="hidden md:block">
+            <ul class="flex space-x-8 font-semibold">
+                <li><a href="index.html" class="hover:underline hover:text-yellow-400">Home</a></li>
+                <li><a href="programs.html" class="hover:underline hover:text-yellow-400">Programs</a></li>
+                <li><a href="contact.html" class="hover:underline hover:text-yellow-400">Contact</a></li>
+                <li><a href="about.html" class="hover:underline hover:text-yellow-400">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container mx-auto p-6 md:p-12 bg-white shadow-md mt-6 rounded-lg">
+        <h1 class="text-3xl font-bold text-blue-900 text-center">Department of Education</h1>
+        <h2 class="text-2xl font-semibold text-gray-700 text-center mt-2">Faculty Members</h2>
+
+        <div id="faculty-list" class="mt-6">
+            <p class="text-center text-gray-500">Loading faculty members...</p>
+        </div>
+    </main>
+
+    <footer class="bg-blue-900 text-white py-6 mt-auto text-center">
+        <p class="text-gray-300">&copy; 2025 University of Haripur. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const facultyListDiv = document.getElementById('faculty-list');
+            facultyListDiv.innerHTML = '<p class="text-center text-gray-500">Loading faculty members...</p>';
+
+            try {
+                const response = await fetch('http://localhost:5000/api/faculty'); // Fetch all faculty members
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error('API Error:', errorData);
+                    throw new Error(`HTTP error! status: ${response.status} - ${errorData.message || 'Failed to fetch faculty data.'}`);
+                }
+                const facultyData = await response.json();
+
+                console.log("Raw Response Data:", facultyData);
+
+                if (facultyData && facultyData.length === 0) {
+                    console.warn("No faculty members found in the database.");
+                    facultyListDiv.innerHTML = '<p class="text-center text-gray-500">No faculty members found.</p>';
+                    return;
+                }
+
+                facultyListDiv.innerHTML = ''; // Clear the loading message
+
+                if (facultyData && facultyData.length > 0) {
+                    facultyData.forEach((faculty) => {
+                        const card = document.createElement('div');
+                        card.classList.add('faculty-card');
+                        card.innerHTML = `
+                            <h3 class="font-semibold text-lg text-gray-800">${faculty.name || 'N/A'}</h3>
+                            <p class="text-gray-600 text-sm">${faculty.designation || 'N/A'}</p>
+                            <p class="text-gray-600 text-sm">${faculty.department || 'N/A'}</p>
+                            <p class="text-gray-600 text-sm">${faculty.education || 'N/A'}</p>
+                            <p class="view-profile mt-2" data-faculty-id="${faculty._id}">View Profile</p>
+                        `;
+                        facultyListDiv.appendChild(card);
+
+                        const viewProfileLink = card.querySelector('.view-profile');
+                        viewProfileLink.addEventListener('click', function() {
+                            const facultyId = this.getAttribute('data-faculty-id');
+                            if (facultyId) {
+                                window.location.href = `faculty-profile.html?id=${facultyId}`;
+                            }
+                        });
+                    });
+                } else {
+                    console.warn("facultyData is undefined or empty after the API call.");
+                    facultyListDiv.innerHTML = '<p class="text-center text-gray-500">No faculty members found (data issue).</p>';
+                }
+
+            } catch (error) {
+                console.error('Error fetching faculty data:', error);
+                facultyListDiv.innerHTML = `<p class="text-center text-red-500">Failed to load faculty members: ${error.message}</p>`;
+            }
+        });
+    </script>
+</body>
+</html>

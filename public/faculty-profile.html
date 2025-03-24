@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .profile-picture {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 1px solid #ddd;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .placeholder-text {
+            font-size: 1.2rem;
+            color: #777;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+    <header class="bg-gradient-to-l from-blue-900 to-blue-600 text-white py-4 flex justify-between items-center px-6 md:px-12">
+        <img class="h-12" src="UOH LOGO.png" alt="University of Haripur">
+        <nav class="hidden md:block">
+            <ul class="flex space-x-8 font-semibold">
+                <li><a href="index.html" class="hover:underline hover:text-yellow-400">Home</a></li>
+                <li><a href="programs.html" class="hover:underline hover:text-yellow-400">Programs</a></li>
+                <li><a href="contact.html" class="hover:underline hover:text-yellow-400">Contact</a></li>
+                <li><a href="about.html" class="hover:underline hover:text-yellow-400">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container mx-auto p-6 md:p-12 bg-white shadow-md mt-6 rounded-lg flex flex-col items-center">
+        <div class="w-full max-w-2xl">
+            <h1 id="faculty-name" class="text-3xl font-bold text-blue-900 text-center mb-4">Loading...</h1>
+
+            <div class="flex flex-col md:flex-row items-center md:items-start mb-6">
+                <div class="profile-picture mr-4 mb-4 md:mb-0">
+                    <img id="faculty-image" src="" alt="Faculty Member" class="w-full h-full object-cover">
+                    <div id="image-placeholder" class="placeholder-text text-center w-full h-full flex items-center justify-center hidden">
+                        No Photo
+                    </div>
+                </div>
+                <div class="flex-grow">
+                    <p id="faculty-designation" class="text-lg text-gray-700 mb-2">Loading...</p>
+                    <p id="faculty-department" class="text-gray-600 mb-4">Loading...</p>
+
+                    <div class="mb-4">
+                        <h3 class="font-semibold text-gray-800 mb-1">Contact</h3>
+                        <p><i class="fas fa-envelope mr-2"></i> Email: <span id="faculty-email">Loading...</span></p>
+                        <p><i class="fas fa-phone mr-2"></i> Tel: <span id="faculty-phone">Loading...</span></p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h3 class="font-semibold text-gray-800 mb-1">Specialization</h3>
+                        <p id="faculty-specialization">Loading...</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h3 class="font-semibold text-gray-800 mb-1">Education</h3>
+                        <p id="faculty-education">Loading...</p>
+                    </div>
+
+                    <div>
+                        <h3 class="font-semibold text-gray-800 mb-1">Research Social Media Profile</h3>
+                        <p id="faculty-social">Loading...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-blue-900 text-white py-6 mt-auto text-center">
+        <p class="text-gray-300">&copy; 2025 University of Haripur. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Get the faculty member ID from the URL (e.g., faculty-profile.html?id=someId)
+            const urlParams = new URLSearchParams(window.location.search);
+            const facultyId = urlParams.get('id');
+
+            if (!facultyId) {
+                document.getElementById('faculty-name').textContent = 'Faculty Profile';
+                document.querySelector('main').innerHTML = '<div class="text-center text-red-500">Faculty ID not provided.</div>';
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://localhost:5000/api/faculty/${facultyId}`);
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(`HTTP error! status: ${response.status} - ${errorData.message || 'Failed to fetch faculty data.'}`);
+                }
+                const facultyData = await response.json();
+
+                // Get elements by their IDs
+                const facultyNameElement = document.getElementById('faculty-name');
+                const facultyDesignationElement = document.getElementById('faculty-designation');
+                const facultyDepartmentElement = document.getElementById('faculty-department');
+                const facultyEmailElement = document.getElementById('faculty-email');
+                const facultyPhoneElement = document.getElementById('faculty-phone');
+                const facultySpecializationElement = document.getElementById('faculty-specialization');
+                const facultyEducationElement = document.getElementById('faculty-education');
+                const facultySocialElement = document.getElementById('faculty-social');
+                const facultyImageElement = document.getElementById('faculty-image');
+                const imagePlaceholderElement = document.getElementById('image-placeholder');
+
+                // Populate the elements with data
+                facultyNameElement.textContent = facultyData.name || 'N/A';
+                facultyDesignationElement.textContent = facultyData.designation || 'N/A';
+                facultyDepartmentElement.textContent = facultyData.department || 'N/A';
+                facultyEmailElement.textContent = facultyData.email || 'N/A';
+                facultyPhoneElement.textContent = facultyData.phone || 'N/A';
+                facultySpecializationElement.textContent = facultyData.specialization || 'N/A';
+                facultyEducationElement.textContent = facultyData.education || 'N/A';
+                facultySocialElement.textContent = facultyData.socialMedia || 'No Link Available';
+
+                // Handle image display
+                if (facultyData.image) {
+                    facultyImageElement.src = facultyData.image;
+                } else {
+                    facultyImageElement.style.display = 'none';
+                    imagePlaceholderElement.classList.remove('hidden');
+                }
+
+            } catch (error) {
+                console.error('Error fetching faculty data:', error);
+                document.getElementById('faculty-name').textContent = 'Error';
+                document.querySelector('main').innerHTML = `<div class="text-center text-red-500">Failed to load faculty profile: ${error.message}</div>`;
+            }
+        });
+    </script>
+</body>
+</html>
