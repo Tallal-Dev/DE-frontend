@@ -188,7 +188,7 @@ document.getElementById('newsletter-form').addEventListener('submit', async func
     const message = document.getElementById('message');
 
     try {
-        const response = await fetch('/api/newsletter', {
+        const response = await fetch('https://de-backend-one.vercel.app/api/newsletter', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email })
