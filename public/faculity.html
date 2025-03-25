@@ -7,17 +7,70 @@
     <link rel="icon" type="image/png" href="UOH.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://kit.fontawesome.com/426cc4a5db.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
+        .credit-hours-col {
+            width: 120px;
+        }
+        /* Desktop Dropdown */
+        .nav-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .nav-dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 4px;
+        }
+        .nav-dropdown:hover .nav-dropdown-content {
+            display: block;
+        }
+        .nav-dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        .nav-dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+        /* Mobile Dropdown */
+        .mobile-dropdown {
+            display: none;
+            padding-left: 1.5rem;
+            padding-top: 0.5rem;
+        }
+        .mobile-dropdown.show {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        .mobile-dropdown a {
+            display: block;
+            padding: 0.5rem 0;
+            color: white;
+        }
+        .mobile-dropdown a:hover {
+            color: #f6e05e;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        /* Faculty Card Styles */
         .faculty-card {
             border: 1px solid #e2e8f0;
             border-radius: 0.25rem;
             padding: 1rem;
             margin-bottom: 1rem;
             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
         }
         .faculty-card:hover {
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
         }
         .view-profile {
             color: #3182ce;
@@ -40,48 +93,50 @@
             </button>
 
             <nav class="hidden md:flex space-x-6 font-semibold">
-                <a href="#" class="hover:underline hover:text-yellow-400">Home</a>
-                <div class="dropdown">
-                    <a href="#" class="hover:underline hover:text-yellow-400">Programs</a>
-                    <div id="program-dropdown" class="dropdown-content"></div>
+                <a href="./index.html" class="hover:underline hover:text-yellow-400">Home</a>
+                <div class="nav-dropdown">
+                    <a href="#" class="hover:underline hover:text-yellow-400">Programs <i class="fas fa-chevron-down ml-1 text-sm"></i></a>
+                    <div id="program-dropdown" class="nav-dropdown-content"></div>
                 </div>
                 <a href="./faculity.html" class="hover:underline hover:text-yellow-400">Faculty</a>
                 <a href="./scheme.html" class="hover:underline hover:text-yellow-400">Scheme of Studies</a>
                 <a href="#footer" class="hover:underline hover:text-yellow-400">Contact</a>
-                <button id="menu-toggle" class="md:hidden text-white focus:outline-none">
-                    <i class="fas fa-bars text-2xl"></i> <!-- Font Awesome icon for menu -->
-                </button>
-                
             </nav>
         </div>
 
-       
-        <div id="mobile-menu" class="hidden md:hidden flex-col bg-blue-800 text-white space-y-4 p-4 mt-2 rounded-md">
-            <a href="#" class="block hover:underline hover:text-yellow-400">Home</a>
-            <div id="mobile-programs-toggle" class="flex items-center justify-between">
-                <a href="#"  class="block hover:underline hover:text-yellow-400">Programs</a>
-                <i id="programs-arrow" class="fas fa-chevron-down ml-2"></i>
-            </div>
-            <div id="mobile-program-dropdown" class="mobile-dropdown-content hidden">
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-blue-800 text-white mt-2 rounded-md">
+            <div class="p-4 space-y-4">
+                <a href='./index.html' class="block hover:underline hover:text-yellow-400">Home</a>
+                
+                <div class="programs-mobile-item">
+                    <div id="mobile-programs-toggle" class="flex items-center justify-between cursor-pointer">
+                        <span class="hover:underline hover:text-yellow-400">Programs</span>
+                        <i id="programs-arrow" class="fas fa-chevron-down ml-2"></i>
+                    </div>
+                    <div id="mobile-program-dropdown" class="mobile-dropdown"></div>
                 </div>
-            <a href="./faculity.html" class="block hover:underline hover:text-yellow-400">Faculty</a>
-            <a href="./scheme.html" class="block hover:underline hover:text-yellow-400">Scheme of Studies</a>
-            <a href="#footer" class="block hover:underline hover:text-yellow-400">Contact</a>
+                
+                <a href="./faculity.html" class="block hover:underline hover:text-yellow-400">Faculty</a>
+                <a href="./scheme.html" class="block hover:underline hover:text-yellow-400">Scheme of Studies</a>
+                <a href="#footer" class="block hover:underline hover:text-yellow-400">Contact</a>
+            </div>
         </div>
     </header>
 
-    <main class="container mx-auto p-6 md:p-12 bg-white shadow-md mt-6 rounded-lg">
-        <h1 class="text-3xl font-bold text-blue-900 text-center">Department of Education</h1>
-        <h2 class="text-2xl font-semibold text-gray-700 text-center mt-2">Faculty Members</h2>
-    
-        <div id="faculty-list" class="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            <p class="text-center text-gray-500 col-span-full">Loading faculty members...</p>
+    <main class="flex-grow">
+        <div class="container mx-auto p-6 md:p-12 bg-white shadow-md mt-6 rounded-lg">
+            <h1 class="text-3xl font-bold text-blue-900 text-center">Department of Education</h1>
+            <h2 class="text-2xl font-semibold text-gray-700 text-center mt-2">Faculty Members</h2>
+        
+            <div id="faculty-list" class="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <p class="text-center text-gray-500 col-span-full">Loading faculty members...</p>
+            </div>
         </div>
     </main>
 
     <footer id="footer" class="bg-blue-900 text-white py-6 mt-auto">
         <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-6 text-center md:text-left">
-           
             <div>
                 <h3 class="text-lg font-semibold">Quick Links</h3>
                 <ul class="mt-2 space-y-2">
@@ -120,115 +175,121 @@
             <p id="message" class="mt-2 text-sm"></p>
         </div>
     </footer>
+    
     <footer class="bg-black">
-        <div  >
-            
-            <p class="mt-2 text-gray-300 text-center">&copy; 2025 University of Haripur. All rights reserved.</p>
+        <div>
+            <p class="py-2 text-gray-300 text-center">&copy; 2025 University of Haripur. All rights reserved.</p>
         </div>
     </footer>
 
     <script>
-        
-//mobile menu toggle nav bar
-document.getElementById('menu-toggle').addEventListener('click', function() {
-    var menu = document.getElementById('mobile-menu');
-    menu.classList.toggle('hidden'); // Show/hide menu on click
-});
-
-      // 🔹 Toggle Mobile Menu
-      const menuBtn = document.getElementById('menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        if (menuBtn && mobileMenu) {
-            menuBtn.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
-        }
-
-        // 🔹 Toggle Mobile Programs Dropdown
-        const mobileProgramsToggle = document.getElementById('mobile-programs-toggle');
-        const mobileProgramDropdown = document.getElementById('mobile-program-dropdown');
-        const programsArrow = document.getElementById('programs-arrow');
-
-        if (mobileProgramsToggle && mobileProgramDropdown && programsArrow) {
-            mobileProgramsToggle.addEventListener('click', () => {
-                mobileProgramDropdown.classList.toggle('hidden');
-                programsArrow.classList.toggle('fa-chevron-down');
-                programsArrow.classList.toggle('fa-chevron-up');
-            });
-        }
-
-        async function fetchProgramsDropdown() {
-    try {
-        const res = await fetch('https://de-backend-one.vercel.app/api/programs');
-        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-
-        const programs = await res.json();
-        const dropdown = document.getElementById('program-dropdown');
-        const mobileDropdown = document.getElementById('mobile-program-dropdown');
-
-        if (dropdown) dropdown.innerHTML = '';
-        if (mobileDropdown) mobileDropdown.innerHTML = '';
-
-        programs.forEach(program => {
-            const linkDesktop = `<a href="program.html?id=${program._id}" class="block text-black p-2 hover:bg-gray-200">${program.name}</a>`;
-            const linkMobile = `<a href="program.html?id=${program._id}" class="block text-white p-2 hover:bg-blue-700">${program.name}</a>`;
-            if (dropdown) dropdown.innerHTML += linkDesktop;
-            if (mobileDropdown) mobileDropdown.innerHTML += linkMobile;
-        });
-    } catch (error) {
-        console.error('Error fetching programs:', error);
-    }
-}
-document.addEventListener('DOMContentLoaded', async () => {
-    const facultyListDiv = document.getElementById('faculty-list');
-    facultyListDiv.innerHTML = '<p class="text-center text-gray-500 col-span-full">Loading faculty members...</p>';
-
-    try {
-        const response = await fetch('https://de-backend-one.vercel.app/api/faculty'); // Fetch faculty data
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        
-        const facultyData = await response.json();
-        facultyListDiv.innerHTML = ''; // Clear the loading message
-
-        if (facultyData.length > 0) {
-            facultyData.forEach((faculty) => {
-                const facultyCard = document.createElement('div');
-                facultyCard.classList.add(
-                    'faculty-card', 'bg-white', 'rounded-lg', 'p-4',
-                    'shadow-lg', 'hover:shadow-2xl', 'hover:scale-105',
-                    'transition', 'duration-300', 'cursor-pointer'
-                );
-                facultyCard.setAttribute('data-faculty-id', faculty._id); // Store faculty ID for navigation
-
-                const imageUrl = faculty.image || 'default-avatar.png'; // Use faculty image or default placeholder
-
-                facultyCard.innerHTML = `
-                    <img src="${imageUrl}" alt="${faculty.name}" class="w-full h-48 object-cover rounded-lg">
-                    <h3 class="font-semibold text-lg text-gray-800 mt-4">${faculty.name || 'N/A'}</h3>
-                    <p class="text-gray-600 text-sm">${faculty.designation || 'N/A'}</p>
-                    <p class="text-gray-600 text-sm">${faculty.department || 'N/A'}</p>
-                    <p class="text-gray-600 text-sm">${faculty.education || 'N/A'}</p>
-                `;
-
-                // ✅ Make the whole card clickable
-                facultyCard.addEventListener('click', function () {
-                    const facultyId = this.getAttribute('data-faculty-id');
-                    if (facultyId) {
-                        window.location.href = `faculty-profile.html?id=${facultyId}`;
-                    }
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle
+            const menuBtn = document.getElementById('menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            if (menuBtn && mobileMenu) {
+                menuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
                 });
+            }
 
-                facultyListDiv.appendChild(facultyCard);
-            });
-        } else {
-            facultyListDiv.innerHTML = '<p class="text-center text-gray-500 col-span-full">No faculty members found.</p>';
-        }
-    } catch (error) {
-        console.error('Error fetching faculty data:', error);
-        facultyListDiv.innerHTML = `<p class="text-center text-red-500 col-span-full">Failed to load faculty members.</p>`;
-    }
-});
+            // Mobile programs dropdown toggle
+            const mobileProgramsToggle = document.getElementById('mobile-programs-toggle');
+            const mobileProgramDropdown = document.getElementById('mobile-program-dropdown');
+            const programsArrow = document.getElementById('programs-arrow');
+            
+            if (mobileProgramsToggle && mobileProgramDropdown && programsArrow) {
+                mobileProgramsToggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    mobileProgramDropdown.classList.toggle('show');
+                    
+                    // Toggle arrow icon
+                    const isExpanded = mobileProgramDropdown.classList.contains('show');
+                    programsArrow.className = isExpanded ? 'fas fa-chevron-up ml-2' : 'fas fa-chevron-down ml-2';
+                });
+            }
+
+            // Fetch programs for dropdowns
+            async function fetchProgramsDropdown() {
+                try {
+                    const response = await fetch('https://de-backend-one.vercel.app/api/programs');
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                    
+                    const programs = await response.json();
+                    const desktopDropdown = document.getElementById('program-dropdown');
+                    const mobileDropdown = document.getElementById('mobile-program-dropdown');
+
+                    if (desktopDropdown) {
+                        desktopDropdown.innerHTML = programs.map(program => 
+                            `<a href="program.html?id=${program._id}" class="hover:bg-gray-100">${program.name}</a>`
+                        ).join('');
+                    }
+
+                    if (mobileDropdown) {
+                        mobileDropdown.innerHTML = programs.map(program => 
+                            `<a href="program.html?id=${program._id}" class="hover:text-yellow-400">${program.name}</a>`
+                        ).join('');
+                    }
+                } catch (error) {
+                    console.error('Error fetching programs:', error);
+                }
+            }
+
+            // Fetch and display faculty members
+            async function fetchFacultyMembers() {
+                const facultyListDiv = document.getElementById('faculty-list');
+                facultyListDiv.innerHTML = '<p class="text-center text-gray-500 col-span-full">Loading faculty members...</p>';
+
+                try {
+                    const response = await fetch('https://de-backend-one.vercel.app/api/faculty');
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                    
+                    const facultyData = await response.json();
+                    facultyListDiv.innerHTML = '';
+
+                    if (facultyData.length > 0) {
+                        facultyData.forEach((faculty) => {
+                            const facultyCard = document.createElement('div');
+                            facultyCard.classList.add(
+                                'faculty-card', 'bg-white', 'rounded-lg', 'p-4',
+                                'shadow-lg', 'hover:shadow-2xl', 'hover:scale-105',
+                                'transition', 'duration-300', 'cursor-pointer'
+                            );
+                            facultyCard.setAttribute('data-faculty-id', faculty._id);
+
+                            const imageUrl = faculty.image || 'default-avatar.png';
+
+                            facultyCard.innerHTML = `
+                                <img src="${imageUrl}" alt="${faculty.name}" class="w-full h-48 object-cover rounded-lg">
+                                <h3 class="font-semibold text-lg text-gray-800 mt-4">${faculty.name || 'N/A'}</h3>
+                                <p class="text-gray-600 text-sm">${faculty.designation || 'N/A'}</p>
+                                <p class="text-gray-600 text-sm">${faculty.department || 'N/A'}</p>
+                                <p class="text-gray-600 text-sm">${faculty.education || 'N/A'}</p>
+                            `;
+
+                            facultyCard.addEventListener('click', function() {
+                                const facultyId = this.getAttribute('data-faculty-id');
+                                if (facultyId) {
+                                    window.location.href = `faculty-profile.html?id=${facultyId}`;
+                                }
+                            });
+
+                            facultyListDiv.appendChild(facultyCard);
+                        });
+                    } else {
+                        facultyListDiv.innerHTML = '<p class="text-center text-gray-500 col-span-full">No faculty members found.</p>';
+                    }
+                } catch (error) {
+                    console.error('Error fetching faculty data:', error);
+                    facultyListDiv.innerHTML = `<p class="text-center text-red-500 col-span-full">Failed to load faculty members.</p>`;
+                }
+            }
+
+            // Initialize
+            fetchProgramsDropdown();
+            fetchFacultyMembers();
+        });
     </script>
 </body>
 </html>
