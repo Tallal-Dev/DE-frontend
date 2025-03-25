@@ -6,6 +6,7 @@
     <title>Faculty Profile</title>
     <link rel="icon" type="image/png" href="UOH.png">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/426cc4a5db.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         .profile-picture {
@@ -112,10 +113,11 @@
                 <h3 class="text-lg font-semibold">Quick Links</h3>
                 <ul class="mt-2 space-y-2">
                     <li><a href="index.html" class="hover:underline">Home</a></li>
-                    <li><a href="about.html" class="hover:underline">About</a></li>
-                    <li><a href="contact.html" class="hover:underline">Contact</a></li>
+                    <li><a href="faculity.html" class="hover:underline">Faculty</a></li>
+                    <li><a href="scheme.html" class="hover:underline">Scheme</a></li>
                 </ul>
             </div>
+    
             <div>
                 <h3 class="text-lg font-semibold">Follow Us</h3>
                 <div class="flex justify-center md:justify-start mt-2 space-x-4">
@@ -124,8 +126,26 @@
                     <a href="#" class="hover:text-gray-400"><i class="fab fa-linkedin text-2xl"></i></a>
                 </div>
             </div>
+    
+            <div>
+                <h3 class="text-lg font-semibold">Contact Us</h3>
+                <div class="mt-2 space-y-2">
+                    <p><strong>Phone No:</strong> +92-312-3456789</p>
+                    <p><strong>Email:</strong> info@uoh.edu.pk</p>
+                    <p><strong>Address:</strong> Department of Education, The University of Haripur, Hattar Road Near Swat Chowk, Haripur, Khyber Pakhtunkhwa, Pakistan</p>
+                </div>
+            </div>
         </div>
-        
+    
+        <!-- Newsletter Subscription Section -->
+        <div class="mt-6 text-center">
+            <h3 class="text-lg font-semibold">Subscribe to our Newsletter</h3>
+            <form id="newsletter-form" class="mt-2 flex justify-center">
+                <input type="email" id="email" name="email" placeholder="Enter your email" class="p-2 rounded-l-md text-black" required>
+                <button type="submit" class="bg-gray-400 text-white px-4 py-2 rounded-r-md hover:bg-yellow-600">Subscribe</button>
+            </form>
+            <p id="message" class="mt-2 text-sm"></p>
+        </div>
     </footer>
     <footer class="bg-black">
         <div  >

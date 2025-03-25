@@ -6,7 +6,7 @@
     <title>Program Details</title>
     <link rel="icon" type="image/png" href="UOH.png">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/426cc4a5db.js" crossorigin="anonymous"></script>
 
     <style>
         body {
@@ -76,7 +76,6 @@
         <h3 id="totalCreditHours" class="text-xl font-semibold text-blue-900 mt-6"></h3>
     </section>
 
-    <!-- Footer -->
     <footer id="footer" class="bg-blue-900 text-white py-6 mt-auto">
         <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-6 text-center md:text-left">
            
@@ -84,10 +83,11 @@
                 <h3 class="text-lg font-semibold">Quick Links</h3>
                 <ul class="mt-2 space-y-2">
                     <li><a href="index.html" class="hover:underline">Home</a></li>
-                    <li><a href="about.html" class="hover:underline">About</a></li>
-                    <li><a href="contact.html" class="hover:underline">Contact</a></li>
+                    <li><a href="faculity.html" class="hover:underline">Faculty</a></li>
+                    <li><a href="scheme.html" class="hover:underline">Scheme</a></li>
                 </ul>
             </div>
+    
             <div>
                 <h3 class="text-lg font-semibold">Follow Us</h3>
                 <div class="flex justify-center md:justify-start mt-2 space-x-4">
@@ -96,87 +96,108 @@
                     <a href="#" class="hover:text-gray-400"><i class="fab fa-linkedin text-2xl"></i></a>
                 </div>
             </div>
+    
+            <div>
+                <h3 class="text-lg font-semibold">Contact Us</h3>
+                <div class="mt-2 space-y-2">
+                    <p><strong>Phone No:</strong> +92-312-3456789</p>
+                    <p><strong>Email:</strong> info@uoh.edu.pk</p>
+                    <p><strong>Address:</strong> Department of Education, The University of Haripur, Hattar Road Near Swat Chowk, Haripur, Khyber Pakhtunkhwa, Pakistan</p>
+                </div>
+            </div>
         </div>
-        
+    
+        <!-- Newsletter Subscription Section -->
+        <div class="mt-6 text-center">
+            <h3 class="text-lg font-semibold">Subscribe to our Newsletter</h3>
+            <form id="newsletter-form" class="mt-2 flex justify-center">
+                <input type="email" id="email" name="email" placeholder="Enter your email" class="p-2 rounded-l-md text-black" required>
+                <button type="submit" class="bg-gray-400 text-white px-4 py-2 rounded-r-md hover:bg-yellow-600">Subscribe</button>
+            </form>
+            <p id="message" class="mt-2 text-sm"></p>
+        </div>
     </footer>
     <footer class="bg-black">
         <div  >
             
-            <p class="mt-2 text-gray-300 text-center">&copy; 2025 University of Haripur. All rights reserved.</p>
+            <p class=" text-gray-300 text-center">&copy; 2025 University of Haripur. All rights reserved.</p>
         </div>
     </footer>
 
     <!-- JavaScript for Fetching Program Details -->
     <script>
      
-        const programId = new URLSearchParams(window.location.search).get('id');
+     const programId = new URLSearchParams(window.location.search).get('id');
 
-        if (!programId) {
-            document.getElementById('programName').textContent = 'Program Details';
-            document.getElementById('schemeContainer').innerHTML = '<p class="text-red-500">Program ID not provided.</p>';
-        } else {
-            fetch(`https://de-backend-one.vercel.app/api/programs/${programId}`)
-    .then(response => response.json())
-    .then(program => {
-        document.getElementById('programName').textContent = program.name || 'N/A';
-        document.getElementById('eligibility').textContent = program.eligibility || 'N/A';
-        document.getElementById('objectives').textContent = program.objectives || 'N/A';
-        document.getElementById('details').textContent = program.details || 'N/A';
+if (!programId) {
+    document.getElementById('programName').textContent = 'Program Details';
+    document.getElementById('schemeContainer').innerHTML = '<p class="text-red-500">Program ID not provided.</p>';
+} else {
+    fetch(`https://de-backend-one.vercel.app/api/programs/${programId}`)
+        .then(response => response.json())
+        .then(program => {
+            document.getElementById('programName').textContent = program.name || 'N/A';
+            document.getElementById('eligibility').textContent = program.eligibility || 'N/A';
+            document.getElementById('objectives').textContent = program.objectives || 'N/A';
+            document.getElementById('details').textContent = program.details || 'N/A';
 
-        const schemeContainer = document.getElementById('schemeContainer');
-        let totalDegreeCreditHours = 0;
+            const schemeContainer = document.getElementById('schemeContainer');
+            let totalDegreeCreditHours = 0;
 
-        if (program.scheme && Array.isArray(program.scheme)) {
-            program.scheme.forEach(semester => {
-                // Ensure proper addition by converting credit hours to numbers
-                let semesterTotalCreditHours = semester.courses.reduce((sum, course) => 
-                    sum + (parseInt(course.creditHours) || 0), 0
-                );
+            if (program.scheme && Array.isArray(program.scheme)) {
+                // Ensure sorting of semesters properly
+                const sortedSemesters = program.scheme.sort((a, b) => a.semester.localeCompare(b.semester, undefined, { numeric: true }));
 
-                totalDegreeCreditHours += semesterTotalCreditHours;
+                sortedSemesters.forEach(semester => {
+                    let semesterTotalCreditHours = semester.courses.reduce((sum, course) =>
+                        sum + (parseInt(course.creditHours) || 0), 0
+                    );
 
-                const semesterHTML = `
-                    <h3 class="text-lg font-semibold text-blue-700 mt-6">Semester ${semester.semester}</h3>
-                    <table class="w-full border-collapse mt-2">
-                        <thead>
-                            <tr class="bg-blue-700 text-white">
-                                <th class="p-2">Course Code</th>
-                                <th class="p-2">Course Name</th>
-                                <th class="p-2">Credit Hours</th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-gray-100">
-                            ${semester.courses.map(course => `
-                                <tr class="border-t">
-                                    <td class="p-2">${course.courseCode || ''}</td>
-                                    <td class="p-2">${course.courseName || ''}</td>
-                                    <td class="p-2">${course.creditHours || ''}</td>
+                    totalDegreeCreditHours += semesterTotalCreditHours;
+
+                    const semesterHTML = `
+                        <h3 class="text-lg font-semibold text-blue-700 mt-6">${semester.semester}</h3>
+                        <table class="w-full border-collapse mt-2">
+                            <thead>
+                                <tr class="bg-blue-700 text-white">
+                                    <th class="p-2">Course Code</th>
+                                    <th class="p-2">Course Name</th>
+                                    <th class="p-2">Credit Hours</th>
                                 </tr>
-                            `).join('')}
-                            <tr class="border-t bg-gray-300 font-semibold">
-                                <td colspan="2" class="p-2 text-right">Total Credit Hours:</td>
-                                <td class="p-2">${semesterTotalCreditHours}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                `;
-                schemeContainer.innerHTML += semesterHTML;
-            });
+                            </thead>
+                            <tbody class="bg-gray-100">
+                                ${semester.courses.map(course => `
+                                    <tr class="border-t">
+                                        <td class="p-2">${course.courseCode || ''}</td>
+                                        <td class="p-2">${course.courseName || ''}</td>
+                                        <td class="p-2">${course.creditHours || ''}</td>
+                                    </tr>
+                                `).join('')}
+                                <tr class="border-t bg-gray-300 font-semibold">
+                                    <td colspan="2" class="p-2 text-right">Total Credit Hours:</td>
+                                    <td class="p-2">${semesterTotalCreditHours}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    `;
+                    schemeContainer.innerHTML += semesterHTML;
+                });
 
-            // Display total credit hours for the degree
-            document.getElementById('totalCreditHours').innerHTML = 
-                `<strong>Total Credit Hours for Degree:</strong> ${totalDegreeCreditHours}`;
-        } else {
-            schemeContainer.innerHTML = '<p class="text-gray-500">No scheme of study available.</p>';
-        }
-    })
-    .catch(error => {
-        console.error('Error fetching program:', error);
-        document.getElementById('schemeContainer').innerHTML = 
-            `<p class="text-red-500">Error loading details: ${error.message}</p>`;
-    });
-        }
-        async function fetchProgramsDropdown() {
+                // Display total credit hours for the degree
+                document.getElementById('totalCreditHours').innerHTML =
+                    `<strong>Total Credit Hours for Degree:</strong> ${totalDegreeCreditHours}`;
+            } else {
+                schemeContainer.innerHTML = '<p class="text-gray-500">No scheme of study available.</p>';
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching program:', error);
+            document.getElementById('schemeContainer').innerHTML =
+                `<p class="text-red-500">Error loading details: ${error.message}</p>`;
+        });
+}
+
+async function fetchProgramsDropdown() {
     try {
         const res = await fetch('https://de-backend-one.vercel.app/api/programs');
         if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
