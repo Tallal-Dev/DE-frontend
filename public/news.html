@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>News Details</title>
+    <link rel="icon" type="image/png" href="UOH.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
 
@@ -18,27 +19,33 @@
             </button>
 
             <nav class="hidden md:flex space-x-6 font-semibold">
-                <a href="./index.html" class="hover:underline hover:text-yellow-400">Home</a>
+                <a href="#" class="hover:underline hover:text-yellow-400">Home</a>
                 <div class="dropdown">
                     <a href="#" class="hover:underline hover:text-yellow-400">Programs</a>
                     <div id="program-dropdown" class="dropdown-content"></div>
                 </div>
-                <a href="./faculity.html" class="hover:underline hover:text-yellow-400">Faculity</a>
+                <a href="./faculity.html" class="hover:underline hover:text-yellow-400">Faculty</a>
                 <a href="./scheme.html" class="hover:underline hover:text-yellow-400">Scheme of Studies</a>
                 <a href="#footer" class="hover:underline hover:text-yellow-400">Contact</a>
-
+                <button id="menu-toggle" class="md:hidden text-white focus:outline-none">
+                    <i class="fas fa-bars text-2xl"></i> <!-- Font Awesome icon for menu -->
+                </button>
+                
             </nav>
         </div>
 
-        <div id="mobile-menu" class="hidden flex-col bg-blue-800 text-white space-y-4 p-4 mt-2 rounded-md md:hidden">
-            <a href="#" class="hover:underline hover:text-yellow-400">Home</a>
-            <div class="dropdown">
-                <a href="#" class="hover:underline hover:text-yellow-400">Programs</a>
-                <div id="program-dropdown" class="dropdown-content"></div>
+       
+        <div id="mobile-menu" class="hidden md:hidden flex-col bg-blue-800 text-white space-y-4 p-4 mt-2 rounded-md">
+            <a href="#" class="block hover:underline hover:text-yellow-400">Home</a>
+            <div id="mobile-programs-toggle" class="flex items-center justify-between">
+                <a href="#"  class="block hover:underline hover:text-yellow-400">Programs</a>
+                <i id="programs-arrow" class="fas fa-chevron-down ml-2"></i>
             </div>
-            <a href="./faculity.html" class="hover:underline hover:text-yellow-400">Faculity</a>
-            <a href="./scheme.html" class="hover:underline hover:text-yellow-400">Scheme of Studies</a>
-            <a href="#footer" class="hover:underline hover:text-yellow-400">Contact</a>
+            <div id="mobile-program-dropdown" class="mobile-dropdown-content hidden">
+                </div>
+            <a href="./faculity.html" class="block hover:underline hover:text-yellow-400">Faculty</a>
+            <a href="./scheme.html" class="block hover:underline hover:text-yellow-400">Scheme of Studies</a>
+            <a href="#footer" class="block hover:underline hover:text-yellow-400">Contact</a>
         </div>
     </header>
 
@@ -108,6 +115,59 @@
     </footer>
 
     <script>
+        
+//mobile menu toggle nav bar
+document.getElementById('menu-toggle').addEventListener('click', function() {
+    var menu = document.getElementById('mobile-menu');
+    menu.classList.toggle('hidden'); // Show/hide menu on click
+});
+
+      // 🔹 Toggle Mobile Menu
+      const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        if (menuBtn && mobileMenu) {
+            menuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+
+        // 🔹 Toggle Mobile Programs Dropdown
+        const mobileProgramsToggle = document.getElementById('mobile-programs-toggle');
+        const mobileProgramDropdown = document.getElementById('mobile-program-dropdown');
+        const programsArrow = document.getElementById('programs-arrow');
+
+        if (mobileProgramsToggle && mobileProgramDropdown && programsArrow) {
+            mobileProgramsToggle.addEventListener('click', () => {
+                mobileProgramDropdown.classList.toggle('hidden');
+                programsArrow.classList.toggle('fa-chevron-down');
+                programsArrow.classList.toggle('fa-chevron-up');
+            });
+        }
+
+        async function fetchProgramsDropdown() {
+    try {
+        const res = await fetch('https://de-backend-one.vercel.app/api/programs');
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+
+        const programs = await res.json();
+        const dropdown = document.getElementById('program-dropdown');
+        const mobileDropdown = document.getElementById('mobile-program-dropdown');
+
+        if (dropdown) dropdown.innerHTML = '';
+        if (mobileDropdown) mobileDropdown.innerHTML = '';
+
+        programs.forEach(program => {
+            const linkDesktop = `<a href="program.html?id=${program._id}" class="block text-black p-2 hover:bg-gray-200">${program.name}</a>`;
+            const linkMobile = `<a href="program.html?id=${program._id}" class="block text-white p-2 hover:bg-blue-700">${program.name}</a>`;
+            if (dropdown) dropdown.innerHTML += linkDesktop;
+            if (mobileDropdown) mobileDropdown.innerHTML += linkMobile;
+        });
+    } catch (error) {
+        console.error('Error fetching programs:', error);
+    }
+}
+
         async function fetchNewsDetails() {
             const urlParams = new URLSearchParams(window.location.search);
             const newsId = urlParams.get("id");
